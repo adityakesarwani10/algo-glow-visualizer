@@ -1,31 +1,24 @@
 import { useState, useEffect, useRef } from 'react';
-import { ControlPanel } from './ControlPanel';
-import { VisualizerBars } from './VisualizerBars';
-import { ThemeToggle } from './ThemeToggle';
-import { bubbleSort, selectionSort, insertionSort, mergeSort, quickSort, heapSort } from '@/lib/sortingAlgorithms';
-
-export type Algorithm = 'bubble' | 'selection' | 'insertion' | 'merge' | 'quick' | 'heap';
-
-export interface BarState {
-  value: number;
-  state: 'default' | 'comparing' | 'swapping' | 'sorted' | 'pivot';
-}
+import { ControlPanel } from './ControlPanel.jsx';
+import { VisualizerBars } from './VisualizerBars.jsx';
+import { ThemeToggle } from './ThemeToggle.jsx';
+import { bubbleSort, selectionSort, insertionSort, mergeSort, quickSort, heapSort } from '@/lib/sortingAlgorithms.js';
 
 export const AlgorithmVisualizer = () => {
-  const [array, setArray] = useState<BarState[]>([]);
+  const [array, setArray] = useState([]);
   const [arraySize, setArraySize] = useState(15);
   const [speed, setSpeed] = useState(50);
   const [isRunning, setIsRunning] = useState(false);
-  const [selectedAlgorithm, setSelectedAlgorithm] = useState<Algorithm>('bubble');
+  const [selectedAlgorithm, setSelectedAlgorithm] = useState('bubble');
   const [statusMessage, setStatusMessage] = useState('New array generated.');
   const [operationMessage, setOperationMessage] = useState('');
   const [stepMode, setStepMode] = useState(false);
   const [canStep, setCanStep] = useState(false);
-  const animationRef = useRef<boolean>(false);
-  const stepResolveRef = useRef<(() => void) | null>(null);
+  const animationRef = useRef(false);
+  const stepResolveRef = useRef(null);
 
-  const generateRandomArray = (size: number) => {
-    const newArray: BarState[] = [];
+  const generateRandomArray = (size) => {
+    const newArray = [];
     for (let i = 0; i < size; i++) {
       newArray.push({
         value: Math.floor(Math.random() * 180) + 20,
@@ -41,7 +34,7 @@ export const AlgorithmVisualizer = () => {
     generateRandomArray(arraySize);
   }, [arraySize]);
 
-  const sleep = (ms: number): Promise<void> => {
+  const sleep = (ms) => {
     if (stepMode) {
       setCanStep(true);
       return new Promise((resolve) => {
@@ -56,13 +49,13 @@ export const AlgorithmVisualizer = () => {
 
   const resetArrayStates = () => {
     setArray((prev) =>
-      prev.map((bar) => ({ ...bar, state: 'default' as const }))
+      prev.map((bar) => ({ ...bar, state: 'default' }))
     );
   };
 
   const handleStart = async () => {
     if (isRunning) return;
-    
+
     setIsRunning(true);
     animationRef.current = true;
     resetArrayStates();
@@ -90,7 +83,7 @@ export const AlgorithmVisualizer = () => {
 
     if (animationRef.current) {
       setArray((prev) =>
-        prev.map((bar) => ({ ...bar, state: 'sorted' as const }))
+        prev.map((bar) => ({ ...bar, state: 'sorted' }))
       );
       setStatusMessage('Sorting complete!');
       setOperationMessage('All elements are now sorted!');
@@ -129,7 +122,7 @@ export const AlgorithmVisualizer = () => {
     }
   };
 
-  const getAlgorithmName = (algo: Algorithm) => {
+  const getAlgorithmName = (algo) => {
     const names = {
       bubble: 'Bubble Sort',
       selection: 'Selection Sort',
