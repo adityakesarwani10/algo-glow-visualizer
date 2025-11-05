@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { ControlPanel } from './ControlPanel';
 import { VisualizerBars } from './VisualizerBars';
+import { ThemeToggle } from './ThemeToggle';
 import { bubbleSort, selectionSort, insertionSort, mergeSort, quickSort, heapSort } from '@/lib/sortingAlgorithms';
 
 export type Algorithm = 'bubble' | 'selection' | 'insertion' | 'merge' | 'quick' | 'heap';
@@ -143,7 +144,10 @@ export const AlgorithmVisualizer = () => {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       {/* Header */}
-      <div className="py-8 border-b border-border">
+      <div className="py-8 border-b border-border relative">
+        <div className="absolute top-4 right-4">
+          <ThemeToggle />
+        </div>
         <h1 className="text-3xl md:text-4xl font-bold text-center text-foreground">
           Sorting Visualizer with Step Mode
         </h1>

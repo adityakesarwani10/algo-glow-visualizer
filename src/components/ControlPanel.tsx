@@ -52,7 +52,7 @@ export const ControlPanel = ({
   onNextStep,
 }: ControlPanelProps) => {
   return (
-    <div className="border-b border-border bg-card">
+    <div className="border-b border-border bg-card/50 backdrop-blur-sm">
       <div className="container mx-auto px-4 py-6">
         {/* Main Controls Row */}
         <div className="flex flex-wrap items-center justify-center gap-3 mb-6">
