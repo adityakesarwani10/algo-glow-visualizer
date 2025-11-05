@@ -1,13 +1,16 @@
 import { BarState } from '@/components/AlgorithmVisualizer';
 
+
 type SetArray = React.Dispatch<React.SetStateAction<BarState[]>>;
+type SetMessage = React.Dispatch<React.SetStateAction<string>>;
 
 export const bubbleSort = async (
   array: BarState[],
   setArray: SetArray,
   sleep: (ms: number) => Promise<void>,
   delay: number,
-  animationRef: React.MutableRefObject<boolean>
+  animationRef: React.MutableRefObject<boolean>,
+  setOperationMessage: SetMessage
 ) => {
   const arr = [...array];
   const n = arr.length;
@@ -16,12 +19,14 @@ export const bubbleSort = async (
     for (let j = 0; j < n - i - 1; j++) {
       if (!animationRef.current) return;
 
+      setOperationMessage(`Comparing elements at positions ${j} and ${j + 1} (values: ${arr[j].value} and ${arr[j + 1].value})`);
       arr[j].state = 'comparing';
       arr[j + 1].state = 'comparing';
       setArray([...arr]);
       await sleep(delay);
 
       if (arr[j].value > arr[j + 1].value) {
+        setOperationMessage(`Swapping elements at positions ${j} and ${j + 1} (values: ${arr[j].value} and ${arr[j + 1].value})`);
         arr[j].state = 'swapping';
         arr[j + 1].state = 'swapping';
         setArray([...arr]);
@@ -34,6 +39,7 @@ export const bubbleSort = async (
       arr[j + 1].state = 'default';
       setArray([...arr]);
     }
+    setOperationMessage(`Position ${n - i - 1} is now in its final sorted position`);
     arr[n - i - 1].state = 'sorted';
     setArray([...arr]);
   }
@@ -46,7 +52,8 @@ export const selectionSort = async (
   setArray: SetArray,
   sleep: (ms: number) => Promise<void>,
   delay: number,
-  animationRef: React.MutableRefObject<boolean>
+  animationRef: React.MutableRefObject<boolean>,
+  setOperationMessage: SetMessage
 ) => {
   const arr = [...array];
   const n = arr.length;
@@ -55,12 +62,14 @@ export const selectionSort = async (
     if (!animationRef.current) return;
 
     let minIdx = i;
+    setOperationMessage(`Finding minimum element from position ${i} to ${n - 1}`);
     arr[minIdx].state = 'pivot';
     setArray([...arr]);
 
     for (let j = i + 1; j < n; j++) {
       if (!animationRef.current) return;
 
+      setOperationMessage(`Checking if element at position ${j} (value: ${arr[j].value}) is smaller than current minimum (value: ${arr[minIdx].value})`);
       arr[j].state = 'comparing';
       setArray([...arr]);
       await sleep(delay);
@@ -68,6 +77,7 @@ export const selectionSort = async (
       if (arr[j].value < arr[minIdx].value) {
         arr[minIdx].state = 'default';
         minIdx = j;
+        setOperationMessage(`New minimum found at position ${j} (value: ${arr[minIdx].value})`);
         arr[minIdx].state = 'pivot';
         setArray([...arr]);
       } else {
@@ -77,6 +87,7 @@ export const selectionSort = async (
     }
 
     if (minIdx !== i) {
+      setOperationMessage(`Swapping minimum element at position ${minIdx} (value: ${arr[minIdx].value}) with position ${i} (value: ${arr[i].value})`);
       arr[i].state = 'swapping';
       arr[minIdx].state = 'swapping';
       setArray([...arr]);
@@ -85,6 +96,7 @@ export const selectionSort = async (
       [arr[i], arr[minIdx]] = [arr[minIdx], arr[i]];
     }
 
+    setOperationMessage(`Position ${i} is now in its final sorted position`);
     arr[i].state = 'sorted';
     setArray([...arr]);
   }
@@ -97,7 +109,8 @@ export const insertionSort = async (
   setArray: SetArray,
   sleep: (ms: number) => Promise<void>,
   delay: number,
-  animationRef: React.MutableRefObject<boolean>
+  animationRef: React.MutableRefObject<boolean>,
+  setOperationMessage: SetMessage
 ) => {
   const arr = [...array];
   const n = arr.length;
@@ -109,6 +122,7 @@ export const insertionSort = async (
     if (!animationRef.current) return;
 
     const key = arr[i];
+    setOperationMessage(`Inserting element at position ${i} (value: ${key.value}) into sorted portion`);
     key.state = 'comparing';
     setArray([...arr]);
     await sleep(delay);
@@ -117,6 +131,7 @@ export const insertionSort = async (
     while (j >= 0 && arr[j].value > key.value) {
       if (!animationRef.current) return;
 
+      setOperationMessage(`Shifting element at position ${j} (value: ${arr[j].value}) one position right`);
       arr[j].state = 'swapping';
       arr[j + 1].state = 'swapping';
       setArray([...arr]);
@@ -129,6 +144,7 @@ export const insertionSort = async (
     }
 
     arr[j + 1] = key;
+    setOperationMessage(`Placed element (value: ${key.value}) at position ${j + 1}`);
     arr[j + 1].state = 'sorted';
     setArray([...arr]);
   }
@@ -139,7 +155,8 @@ export const mergeSort = async (
   setArray: SetArray,
   sleep: (ms: number) => Promise<void>,
   delay: number,
-  animationRef: React.MutableRefObject<boolean>
+  animationRef: React.MutableRefObject<boolean>,
+  setOperationMessage: SetMessage
 ) => {
   const arr = [...array];
 
@@ -152,14 +169,17 @@ export const mergeSort = async (
     while (i < leftArr.length && j < rightArr.length) {
       if (!animationRef.current) return;
 
+      setOperationMessage(`Merging: Comparing elements from left and right subarrays`);
       arr[k].state = 'comparing';
       setArray([...arr]);
       await sleep(delay);
 
       if (leftArr[i].value <= rightArr[j].value) {
+        setOperationMessage(`Placing element ${leftArr[i].value} from left subarray at position ${k}`);
         arr[k] = { ...leftArr[i], state: 'swapping' };
         i++;
       } else {
+        setOperationMessage(`Placing element ${rightArr[j].value} from right subarray at position ${k}`);
         arr[k] = { ...rightArr[j], state: 'swapping' };
         j++;
       }
@@ -206,12 +226,14 @@ export const quickSort = async (
   setArray: SetArray,
   sleep: (ms: number) => Promise<void>,
   delay: number,
-  animationRef: React.MutableRefObject<boolean>
+  animationRef: React.MutableRefObject<boolean>,
+  setOperationMessage: SetMessage
 ) => {
   const arr = [...array];
 
   async function partition(low: number, high: number): Promise<number> {
     const pivot = arr[high];
+    setOperationMessage(`Choosing pivot element at position ${high} (value: ${pivot.value})`);
     pivot.state = 'pivot';
     setArray([...arr]);
     await sleep(delay);
@@ -221,12 +243,14 @@ export const quickSort = async (
     for (let j = low; j < high; j++) {
       if (!animationRef.current) return -1;
 
+      setOperationMessage(`Comparing element at position ${j} (value: ${arr[j].value}) with pivot (value: ${pivot.value})`);
       arr[j].state = 'comparing';
       setArray([...arr]);
       await sleep(delay);
 
       if (arr[j].value < pivot.value) {
         i++;
+        setOperationMessage(`Swapping elements at positions ${i} and ${j} (values: ${arr[i].value} and ${arr[j].value})`);
         arr[i].state = 'swapping';
         arr[j].state = 'swapping';
         setArray([...arr]);
@@ -241,6 +265,7 @@ export const quickSort = async (
       setArray([...arr]);
     }
 
+    setOperationMessage(`Placing pivot at its correct position ${i + 1}`);
     arr[i + 1].state = 'swapping';
     arr[high].state = 'swapping';
     setArray([...arr]);
@@ -275,13 +300,15 @@ export const heapSort = async (
   setArray: SetArray,
   sleep: (ms: number) => Promise<void>,
   delay: number,
-  animationRef: React.MutableRefObject<boolean>
+  animationRef: React.MutableRefObject<boolean>,
+  setOperationMessage: SetMessage
 ) => {
   const arr = [...array];
   const n = arr.length;
 
-  async function heapify(n: number, i: number) {
-    let largest = i;
+    async function heapify(n: number, i: number) {
+      setOperationMessage(`Heapifying subtree rooted at index ${i}`);
+      let largest = i;
     const left = 2 * i + 1;
     const right = 2 * i + 2;
 
@@ -311,8 +338,9 @@ export const heapSort = async (
       setArray([...arr]);
     }
 
-    if (largest !== i) {
-      arr[i].state = 'swapping';
+      if (largest !== i) {
+        setOperationMessage(`Swapping elements at positions ${i} and ${largest} to maintain heap property`);
+        arr[i].state = 'swapping';
       arr[largest].state = 'swapping';
       setArray([...arr]);
       await sleep(delay);
@@ -326,14 +354,19 @@ export const heapSort = async (
     }
   }
 
+  // Build max heap
+  setOperationMessage("Building max heap from array");
   for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
     await heapify(n, i);
   }
 
+  // Extract elements from heap
+  setOperationMessage("Extracting elements from heap one by one");
   for (let i = n - 1; i > 0; i--) {
-    if (!animationRef.current) return;
+      if (!animationRef.current) return;
 
-    arr[0].state = 'swapping';
+      setOperationMessage(`Moving current max (value: ${arr[0].value}) to position ${i}`);
+      arr[0].state = 'swapping';
     arr[i].state = 'swapping';
     setArray([...arr]);
     await sleep(delay);

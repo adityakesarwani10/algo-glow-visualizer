@@ -17,6 +17,7 @@ export const AlgorithmVisualizer = () => {
   const [isRunning, setIsRunning] = useState(false);
   const [selectedAlgorithm, setSelectedAlgorithm] = useState<Algorithm>('bubble');
   const [statusMessage, setStatusMessage] = useState('New array generated.');
+  const [operationMessage, setOperationMessage] = useState('');
   const [stepMode, setStepMode] = useState(false);
   const [canStep, setCanStep] = useState(false);
   const animationRef = useRef<boolean>(false);
@@ -32,6 +33,7 @@ export const AlgorithmVisualizer = () => {
     }
     setArray(newArray);
     setStatusMessage('New array generated.');
+    setOperationMessage('');
   };
 
   useEffect(() => {
@@ -81,7 +83,8 @@ export const AlgorithmVisualizer = () => {
       setArray,
       sleep,
       delay,
-      animationRef
+      animationRef,
+      setOperationMessage
     );
 
     if (animationRef.current) {
@@ -89,8 +92,10 @@ export const AlgorithmVisualizer = () => {
         prev.map((bar) => ({ ...bar, state: 'sorted' as const }))
       );
       setStatusMessage('Sorting complete!');
+      setOperationMessage('All elements are now sorted!');
     } else {
       setStatusMessage('Sorting stopped.');
+      setOperationMessage('');
     }
 
     setIsRunning(false);
@@ -107,6 +112,7 @@ export const AlgorithmVisualizer = () => {
     setCanStep(false);
     resetArrayStates();
     setStatusMessage('Sorting stopped.');
+    setOperationMessage('');
   };
 
   const handleShuffle = () => {
@@ -166,9 +172,14 @@ export const AlgorithmVisualizer = () => {
         <VisualizerBars array={array} />
       </div>
 
-      {/* Status Message */}
-      <div className="pb-8">
+      {/* Status and Operation Messages */}
+      <div className="pb-8 space-y-2">
         <p className="text-center text-foreground font-medium">{statusMessage}</p>
+        {operationMessage && (
+          <p className="text-center text-primary font-semibold text-lg">
+            {operationMessage}
+          </p>
+        )}
       </div>
 
       {/* Footer */}
