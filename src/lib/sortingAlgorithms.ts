@@ -1,16 +1,13 @@
 import { BarState } from '@/components/AlgorithmVisualizer';
 
 type SetArray = React.Dispatch<React.SetStateAction<BarState[]>>;
-type SetStat = React.Dispatch<React.SetStateAction<number>>;
 
 export const bubbleSort = async (
   array: BarState[],
   setArray: SetArray,
   sleep: (ms: number) => Promise<void>,
   delay: number,
-  animationRef: React.MutableRefObject<boolean>,
-  setComparisons: SetStat,
-  setSwaps: SetStat
+  animationRef: React.MutableRefObject<boolean>
 ) => {
   const arr = [...array];
   const n = arr.length;
@@ -19,19 +16,15 @@ export const bubbleSort = async (
     for (let j = 0; j < n - i - 1; j++) {
       if (!animationRef.current) return;
 
-      // Highlight comparing bars
       arr[j].state = 'comparing';
       arr[j + 1].state = 'comparing';
       setArray([...arr]);
-      setComparisons((prev) => prev + 1);
       await sleep(delay);
 
       if (arr[j].value > arr[j + 1].value) {
-        // Swap
         arr[j].state = 'swapping';
         arr[j + 1].state = 'swapping';
         setArray([...arr]);
-        setSwaps((prev) => prev + 1);
         await sleep(delay);
 
         [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
@@ -53,9 +46,7 @@ export const selectionSort = async (
   setArray: SetArray,
   sleep: (ms: number) => Promise<void>,
   delay: number,
-  animationRef: React.MutableRefObject<boolean>,
-  setComparisons: SetStat,
-  setSwaps: SetStat
+  animationRef: React.MutableRefObject<boolean>
 ) => {
   const arr = [...array];
   const n = arr.length;
@@ -72,7 +63,6 @@ export const selectionSort = async (
 
       arr[j].state = 'comparing';
       setArray([...arr]);
-      setComparisons((prev) => prev + 1);
       await sleep(delay);
 
       if (arr[j].value < arr[minIdx].value) {
@@ -90,7 +80,6 @@ export const selectionSort = async (
       arr[i].state = 'swapping';
       arr[minIdx].state = 'swapping';
       setArray([...arr]);
-      setSwaps((prev) => prev + 1);
       await sleep(delay);
 
       [arr[i], arr[minIdx]] = [arr[minIdx], arr[i]];
@@ -108,9 +97,7 @@ export const insertionSort = async (
   setArray: SetArray,
   sleep: (ms: number) => Promise<void>,
   delay: number,
-  animationRef: React.MutableRefObject<boolean>,
-  setComparisons: SetStat,
-  setSwaps: SetStat
+  animationRef: React.MutableRefObject<boolean>
 ) => {
   const arr = [...array];
   const n = arr.length;
@@ -130,11 +117,9 @@ export const insertionSort = async (
     while (j >= 0 && arr[j].value > key.value) {
       if (!animationRef.current) return;
 
-      setComparisons((prev) => prev + 1);
       arr[j].state = 'swapping';
       arr[j + 1].state = 'swapping';
       setArray([...arr]);
-      setSwaps((prev) => prev + 1);
       await sleep(delay);
 
       arr[j + 1] = arr[j];
@@ -154,9 +139,7 @@ export const mergeSort = async (
   setArray: SetArray,
   sleep: (ms: number) => Promise<void>,
   delay: number,
-  animationRef: React.MutableRefObject<boolean>,
-  setComparisons: SetStat,
-  setSwaps: SetStat
+  animationRef: React.MutableRefObject<boolean>
 ) => {
   const arr = [...array];
 
@@ -164,16 +147,13 @@ export const mergeSort = async (
     const leftArr = arr.slice(left, mid + 1);
     const rightArr = arr.slice(mid + 1, right + 1);
 
-    let i = 0,
-      j = 0,
-      k = left;
+    let i = 0, j = 0, k = left;
 
     while (i < leftArr.length && j < rightArr.length) {
       if (!animationRef.current) return;
 
       arr[k].state = 'comparing';
       setArray([...arr]);
-      setComparisons((prev) => prev + 1);
       await sleep(delay);
 
       if (leftArr[i].value <= rightArr[j].value) {
@@ -183,7 +163,6 @@ export const mergeSort = async (
         arr[k] = { ...rightArr[j], state: 'swapping' };
         j++;
       }
-      setSwaps((prev) => prev + 1);
       setArray([...arr]);
       await sleep(delay);
       arr[k].state = 'default';
@@ -227,9 +206,7 @@ export const quickSort = async (
   setArray: SetArray,
   sleep: (ms: number) => Promise<void>,
   delay: number,
-  animationRef: React.MutableRefObject<boolean>,
-  setComparisons: SetStat,
-  setSwaps: SetStat
+  animationRef: React.MutableRefObject<boolean>
 ) => {
   const arr = [...array];
 
@@ -246,7 +223,6 @@ export const quickSort = async (
 
       arr[j].state = 'comparing';
       setArray([...arr]);
-      setComparisons((prev) => prev + 1);
       await sleep(delay);
 
       if (arr[j].value < pivot.value) {
@@ -254,7 +230,6 @@ export const quickSort = async (
         arr[i].state = 'swapping';
         arr[j].state = 'swapping';
         setArray([...arr]);
-        setSwaps((prev) => prev + 1);
         await sleep(delay);
 
         [arr[i], arr[j]] = [arr[j], arr[i]];
@@ -269,7 +244,6 @@ export const quickSort = async (
     arr[i + 1].state = 'swapping';
     arr[high].state = 'swapping';
     setArray([...arr]);
-    setSwaps((prev) => prev + 1);
     await sleep(delay);
 
     [arr[i + 1], arr[high]] = [arr[high], arr[i + 1]];
@@ -301,9 +275,7 @@ export const heapSort = async (
   setArray: SetArray,
   sleep: (ms: number) => Promise<void>,
   delay: number,
-  animationRef: React.MutableRefObject<boolean>,
-  setComparisons: SetStat,
-  setSwaps: SetStat
+  animationRef: React.MutableRefObject<boolean>
 ) => {
   const arr = [...array];
   const n = arr.length;
@@ -317,7 +289,6 @@ export const heapSort = async (
       if (!animationRef.current) return;
       arr[left].state = 'comparing';
       setArray([...arr]);
-      setComparisons((prev) => prev + 1);
       await sleep(delay);
 
       if (arr[left].value > arr[largest].value) {
@@ -331,7 +302,6 @@ export const heapSort = async (
       if (!animationRef.current) return;
       arr[right].state = 'comparing';
       setArray([...arr]);
-      setComparisons((prev) => prev + 1);
       await sleep(delay);
 
       if (arr[right].value > arr[largest].value) {
@@ -345,7 +315,6 @@ export const heapSort = async (
       arr[i].state = 'swapping';
       arr[largest].state = 'swapping';
       setArray([...arr]);
-      setSwaps((prev) => prev + 1);
       await sleep(delay);
 
       [arr[i], arr[largest]] = [arr[largest], arr[i]];
@@ -357,19 +326,16 @@ export const heapSort = async (
     }
   }
 
-  // Build max heap
   for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
     await heapify(n, i);
   }
 
-  // Extract elements from heap
   for (let i = n - 1; i > 0; i--) {
     if (!animationRef.current) return;
 
     arr[0].state = 'swapping';
     arr[i].state = 'swapping';
     setArray([...arr]);
-    setSwaps((prev) => prev + 1);
     await sleep(delay);
 
     [arr[0], arr[i]] = [arr[i], arr[0]];
