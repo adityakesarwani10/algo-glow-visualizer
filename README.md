@@ -1,73 +1,102 @@
-# Welcome to your Lovable project
+# Algo Visualizer
 
-## Project info
+An interactive web application for visualizing sorting algorithms. Learn how algorithms work through beautiful animations and step-by-step explanations.
 
-**URL**: https://lovable.dev/projects/f0b8a8b7-9cd6-45c7-8af4-c386a5680a74
+## Features
 
-## How can I edit this code?
+- **Interactive Visualizations**: Watch sorting algorithms in action with animated bars representing array elements.
+- **Multiple Algorithms**: Supports Bubble Sort, Selection Sort, Insertion Sort, Merge Sort, Quick Sort, and Heap Sort.
+- **Real-time Controls**: Adjust animation speed, pause/resume, and reset the visualization.
+- **Step-by-Step Explanations**: Detailed messages explaining each operation during the sorting process.
+- **Theme Toggle**: Switch between light and dark themes for comfortable viewing.
+- **Responsive Design**: Works seamlessly on desktop and mobile devices.
 
-There are several ways of editing your application.
+## Technologies Used
 
-**Use Lovable**
+- **Frontend Framework**: React 18 with TypeScript
+- **Build Tool**: Vite
+- **Styling**: Tailwind CSS with shadcn/ui components
+- **State Management**: React hooks
+- **Routing**: React Router DOM
+- **Icons**: Lucide React
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/f0b8a8b7-9cd6-45c7-8af4-c386a5680a74) and start prompting.
+## Installation
 
-Changes made via Lovable will be committed automatically to this repo.
+### Prerequisites
 
-**Use your preferred IDE**
+- Node.js (version 16 or higher)
+- npm or yarn package manager
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Setup
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/adityakesarwani10.git
+   cd algo-glow-visualizer
+   ```
 
-Follow these steps:
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+3. **Start the development server**
+   ```bash
+   npm run dev
+   ```
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+4. **Open your browser**
 
-# Step 3: Install the necessary dependencies.
-npm i
+   Navigate to `http://localhost:5173` to view the application.
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+## Usage
+
+1. **Select an Algorithm**: Choose from the available sorting algorithms in the control panel.
+2. **Generate Array**: Click "Generate New Array" to create a random array of bars.
+3. **Adjust Speed**: Use the speed slider to control the animation pace.
+4. **Start Visualization**: Click "Start" to begin the sorting animation.
+5. **Control Playback**: Use pause, resume, or reset buttons as needed.
+6. **Learn**: Read the operation messages to understand each step of the algorithm.
+
+## Project Structure
+
+```
+src/
+├── components/
+│   ├── AlgorithmVisualizer.jsx    # Main visualization component
+│   ├── ControlPanel.jsx           # User controls
+│   ├── ThemeToggle.jsx            # Theme switcher
+│   └── VisualizerBars.jsx         # Animated bars component
+├── lib/
+│   ├── sortingAlgorithms.js       # Algorithm implementations
+│   └── utils.js                   # Utility functions
+├── contexts/
+│   └── ThemeContext.jsx           # Theme management
+└── pages/
+    ├── Index.jsx                  # Main page
+    └── NotFound.jsx               # 404 page
 ```
 
-**Edit a file directly in GitHub**
+## Contributing
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-**Use GitHub Codespaces**
+## License
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+This project is open source and available under the [MIT License](LICENSE).
 
-## What technologies are used for this project?
+## Deployment
 
-This project is built with:
+This project can be deployed using various platforms:
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+- **Vercel**: Connect your GitHub repo and deploy automatically.
+- **Netlify**: Drag and drop the build folder or connect via Git.
+- **GitHub Pages**: Use GitHub Actions for automated deployment.
 
-## How can I deploy this project?
+To build for production:
 
-Simply open [Lovable](https://lovable.dev/projects/f0b8a8b7-9cd6-45c7-8af4-c386a5680a74) and click on Share -> Publish.
+```bash
+npm run build
+```
 
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+The built files will be in the `dist` directory.
