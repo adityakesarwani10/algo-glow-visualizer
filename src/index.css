@@ -2,12 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
-
+/* 🎨 Design System — all colors use HSL format */
 @layer base {
   :root {
+    /* 🌤️ Light Theme */
     --background: 0 0% 98%;
     --foreground: 220 10% 20%;
 
@@ -38,14 +36,15 @@ All colors MUST be HSL.
 
     --radius: 0.5rem;
 
-    /* Bar colors */
-    --bar-default: 210 15% 85%;
-    --bar-comparing: 45 100% 60%;
-    --bar-swapping: 0 70% 60%;
-    --bar-sorted: 145 65% 50%;
-    --bar-pivot: 280 70% 60%;
+    /* 🔹 Bar colors (Light Mode) */
+    --bar-default: 210 15% 48%;  /* balanced bluish-gray */
+    --bar-comparing: 45 100% 60%; /* yellowish compare */
+    --bar-swapping: 0 70% 60%;    /* red swap */
+    --bar-sorted: 145 65% 50%;    /* green sorted */
+    --bar-pivot: 280 70% 60%;     /* purple pivot */
   }
 
+  /* 🌙 Dark Mode */
   .dark {
     --background: 222 47% 11%;
     --foreground: 210 40% 98%;
@@ -75,8 +74,8 @@ All colors MUST be HSL.
     --input: 217 32% 17%;
     --ring: 200 80% 55%;
 
-    /* Dark mode bar colors */
-    --bar-default: 217 32% 17%;
+    /* 🌌 Bar colors (Dark Mode — fixed visibility) */
+    --bar-default: 210 30% 40%;  /* ✅ visible bluish tone */
     --bar-comparing: 45 100% 60%;
     --bar-swapping: 0 70% 60%;
     --bar-sorted: 145 65% 50%;
@@ -95,3 +94,12 @@ All colors MUST be HSL.
   }
 }
 
+/* ✨ Optional: Hover Glow Effect for Bars */
+.bar {
+  transition: all 0.3s ease;
+}
+
+.bar:hover {
+  box-shadow: 0 0 10px hsl(var(--bar-default) / 0.7);
+  transform: scaleY(1.05);
+}

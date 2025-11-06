@@ -182,7 +182,7 @@ export const AlgorithmVisualizer = () => {
       {/* Footer */}
       <footer className="border-t border-border py-4 mt-auto">
         <div className="container mx-auto px-4">
-          <p className="text-center text-sm text-muted-foreground">
+          <p className="text-center text-sm text-muted-foreground font-extrabold">
               Copyright reserved © 2025 by Aditya kesarwani
           </p>
         </div>
